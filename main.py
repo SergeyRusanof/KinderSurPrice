@@ -5,6 +5,8 @@ from aiogram.types import Message
 from aiogram.filters import CommandStart, Command
 from aiogram import Router
 from commands.commands import command_router
+from filters.filters import router_filter
+from callback.callbackquery import router_query
 
 
 async def main():
@@ -12,6 +14,8 @@ async def main():
     dp = Dispatcher()
 
     dp.include_router(command_router)
+    dp.include_router(router_filter)
+    dp.include_router(router_query)
 
     await dp.start_polling(bot)
 

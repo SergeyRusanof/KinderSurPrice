@@ -15,6 +15,7 @@ class DataBase:
                                 'your_friend INTEGER'
                                 'bonus INTEGER'
                                 ')')
+            
     def add_user(self, user_id, user_name, count_pay, friends, your_friend, bonus):
         with self.conn:
             self.cursor.execute('INSERT INTO narkos (user_id, user_name, count_pay, friends, your_friend, bonus) VALUES (?, ?, ?, ?, ?, ?, ?)', (user_id, user_name, count_pay, friends, your_friend, bonus))
@@ -22,6 +23,7 @@ class DataBase:
 
     def check_user(self, user_id):
         with self.conn:
-            self.cursor.execute()
+            result = self.cursor.execute('SELECT your_friend FROM narkos WHERE user_id = ?', (user_id,)).fetchone()
+            return bool(result)
 
 
