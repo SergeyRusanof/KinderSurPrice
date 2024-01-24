@@ -1,10 +1,11 @@
 from aiogram import types, Router, F
-from keyboards.inline import sale_menu
 
+from keyboards.inline import sale_menu
 
 router_query = Router()
 
 
-@router_query.callback_query(F.data == 'buy')
-async def buy(message: types.Message):
-    await message.answer('Привет', reply_markup=sale_menu)
+@router_query.callback_query(F.data == "buy")
+async def buy(message: types.CallbackQuery):
+    pic = 'AgACAgEAAxkBAAMrZa_prvjsFGrgkm9ArzDReGUdL5MAAhCsMRtuFoFFHavg8sGnsF8BAAMCAAN4AAM0BA'
+    await message.answer_photo(pic, caption='Привет! Выбери товар..', reply_markup=sale_menu)

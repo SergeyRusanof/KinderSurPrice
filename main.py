@@ -1,23 +1,27 @@
 import asyncio
-from aiogram import Bot, Dispatcher
+from aiogram import Bot, Dispatcher, F
 from configure.config import TOKEN
-from aiogram.types import Message
-from aiogram.filters import CommandStart, Command
-from aiogram import Router
-from commands.commands import command_router
+import logging
+from commands.commands import command_router, start
 from filters.filters import router_filter
 from callback.callbackquery import router_query
+from callback.callbackquery import buy
 
 
 async def main():
+    logging.basicConfig(level=logging.INFO)
     bot = Bot(token=TOKEN)
     dp = Dispatcher()
-
     dp.include_router(command_router)
-    dp.include_router(router_filter)
+    dp.message.register(start)
+    dp.message.register(buy)
     dp.include_router(router_query)
+    dp.include_router(router_filter)
 
-    await dp.start_polling(bot)
+    try:
+        await dp.start_polling(bot)
+    finally:
+        await bot.close()
 
 
 if __name__ == '__main__':
