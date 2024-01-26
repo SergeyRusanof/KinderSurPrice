@@ -3,10 +3,10 @@ from aiogram.filters import CommandStart, Command
 from aiogram import Router
 from keyboards.inline import menu_start
 
-command_router = Router()
+router_commands = Router()
 
 
-@command_router.message(CommandStart())
+@router_commands.message(CommandStart())
 async def start(message: Message):
     pic = 'AgACAgEAAxkBAAMrZa_prvjsFGrgkm9ArzDReGUdL5MAAhCsMRtuFoFFHavg8sGnsF8BAAMCAAN4AAM0BA'
     await message.answer_photo(pic,
@@ -14,6 +14,6 @@ async def start(message: Message):
                                reply_markup=menu_start)
 
 
-@command_router.message(Command('admin'))
+@router_commands.message(Command('admin'))
 async def admin(message: Message):
     await message.answer('Привет Админ!')
