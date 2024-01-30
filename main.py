@@ -4,7 +4,6 @@ from aiogram import Bot, Dispatcher, F
 import logging
 from commands.commands import router_commands, start
 from filters.filters import router_photo_filter
-from commands.bot_commands import bot_commands
 from callback.callbackquery import buy_handler
 from dotenv import load_dotenv, find_dotenv
 
@@ -17,11 +16,10 @@ async def main():
     dp = Dispatcher()
     dp.include_router(router_commands)
     dp.include_router(router_photo_filter)
-    dp.message.register(bot_commands, commands = 'admin')
     dp.callback_query.register(buy_handler, F.data.startswith('buy'))
 
     try:
-        await dp.start_polling(bot, allowed_updates=True)
+        await dp.start_polling(bot)
     finally:
         await bot.close()
 
