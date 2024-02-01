@@ -1,43 +1,46 @@
+from aiogram.filters.callback_data import CallbackData
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 
-
-menu_start = InlineKeyboardMarkup(inline_keyboard=[
-    [
-        InlineKeyboardButton(text='Твой Профиль', callback_data='buy'),
-        InlineKeyboardButton(text='🤙Купить курить🤙', callback_data='profile')
-    ],
-    [
-        InlineKeyboardButton(text='‼️Акция "Приведи друга"‼️', callback_data='refs')
-    ],
-    [
-        InlineKeyboardButton(text='Информация📌', callback_data='inform'),
-        InlineKeyboardButton(text='Связь', callback_data='call_back')
-    ]
-])
+class MyCallBack(CallbackData, prefix='my_callback'):
+    zap: str
 
 
-
-sale_menu = InlineKeyboardMarkup(inline_keyboard=[
-    [
-        InlineKeyboardButton(text='🥴Купить грамм', callback_data='gramm'),
-        InlineKeyboardButton(text='Полка(0.5гр)', callback_data='polka')
-    ],
-    [
-        InlineKeyboardButton(text='🚢Купить корабль', callback_data='full'),
-        InlineKeyboardButton(text='Полка(0.5корабля)',callback_data='path_full')
-    ],
-    [
-        InlineKeyboardButton(text='🤯Купить стакан', callback_data='glass')
-    ],
-    [
-        InlineKeyboardButton(text='🤫Пятка', callback_data='decl')
-        ]
-    ])
+class MyLocation(CallbackData, prefix='my_location'):
+    loc: str
 
 
-profile = InlineKeyboardMarkup(inline_keyboard=[
-    [
-        InlineKeyboardButton(text='')
-    ]
-])
+def menu_start():
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(text='Твой Профиль', callback_data=MyCallBack(zap='profile'))
+    keyboard.button(text='🤙Купить курить🤙', callback_data=MyCallBack(zap='buy'))
+    keyboard.button(text='‼️Акция "Приведи друга"‼️', callback_data=MyCallBack(zap='refs'))
+    keyboard.button(text='Информация📌', callback_data=MyCallBack(zap='inform'))
+    keyboard.button(text='Связь', callback_data=MyCallBack(zap='call_back'))
+    keyboard.adjust(2, 1, 2)
+    return keyboard.as_markup()
+
+
+def sale_menu():
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(text='🥴Купить грамм', callback_data=MyCallBack(zap='gramm'))
+    keyboard.button(text='Полка(0.5гр)', callback_data=MyCallBack(zap='polka'))
+    keyboard.button(text='🚢Купить корабль', callback_data=MyCallBack(zap='full'))
+    keyboard.button(text='Полка(0.5корабля)', callback_data=MyCallBack(zap='path_full'))
+    keyboard.button(text='🤯Купить стакан', callback_data=MyCallBack(zap='glass'))
+    keyboard.button(text='🤫Пятка', callback_data=MyCallBack(zap='decl'))
+    keyboard.adjust(2,2,2)
+    return keyboard.as_markup()
+
+
+def location():
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(text='Центр', callback_data=MyLocation(loc='city'))
+    keyboard.button(text='Блочок', callback_data=MyLocation(loc='block'))
+    keyboard.button(text='Фильтры', callback_data=MyLocation(loc='filtry'))
+    keyboard.button(text='Ватутино', callback_data=MyLocation(loc='vatut'))
+    keyboard.button(text='Красный', callback_data=MyLocation(loc='red'))
+    keyboard.button(text='Юзовский', callback_data=MyLocation(loc='uzov'))
+    keyboard.adjust(2,2,2)
+    return keyboard.as_markup()

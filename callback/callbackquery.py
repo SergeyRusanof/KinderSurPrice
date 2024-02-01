@@ -1,10 +1,19 @@
 from aiogram import types, Router, F, Bot
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Update
+from keyboards.inline import MyCallBack, MyLocation
+from keyboards.inline import sale_menu, location
 
-from keyboards.inline import sale_menu
+
+call_router = Router()
 
 
-async def buy_handler(call: CallbackQuery, bot: Bot):
-    pic = 'AgACAgEAAxkBAAMrZa_prvjsFGrgkm9ArzDReGUdL5MAAhCsMRtuFoFFHavg8sGnsF8BAAMCAAN4AAM0BA'
-    await call.message.answear(pic, caption='Привет! Выбери товар..', reply_markup=sale_menu)
+@call_router.callback_query(MyCallBack.filter(F.zap == "buy"))
+async def buy(call: CallbackQuery):
+    await call.message.answer('🌲Выбери количество...', reply_markup=sale_menu())
+
+
+@call_router.callback_query(MyCallBack.filter(F.zap == "gramm"))
+async def buy(call: CallbackQuery):
+    await call.message.answer('🏘 Выбери район...', reply_markup=location())
+    await call.message.delete()
