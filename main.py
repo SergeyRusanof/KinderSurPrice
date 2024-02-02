@@ -5,6 +5,7 @@ import logging
 from commands.commands import router_commands, start
 from filters.filters import router_photo_filter
 from callback.callbackquery import call_router
+from utils.ref_system import refs_router
 
 from dotenv import load_dotenv, find_dotenv
 
@@ -18,6 +19,7 @@ async def main():
     dp.include_router(router_commands)
     dp.include_router(router_photo_filter)
     dp.include_router(call_router)
+    dp.include_router(refs_router)
 
 
     try:
