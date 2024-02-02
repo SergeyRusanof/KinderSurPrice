@@ -21,7 +21,7 @@ async def start(message: Message, bot: Bot):
             pass
             pic = 'AgACAgEAAxkBAAMrZa_prvjsFGrgkm9ArzDReGUdL5MAAhCsMRtuFoFFHavg8sGnsF8BAAMCAAN4AAM0BA'
             await message.answer_photo(pic,
-                                       caption=f'Привет - привет, {message.from_user.first_name}\n\nМагазин KinderSurprice приветствует тебя!\n\nМы топим за качество и насыпь!',
+                                       caption=f'✌️Привет - привет, {message.from_user.first_name}\n\n🔊Магазин KinderSurprice приветствует тебя!\n\nМы топим за качество и насыпь! ♥️',
                                        reply_markup=menu_start())
 
 

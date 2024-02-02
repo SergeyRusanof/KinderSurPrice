@@ -13,11 +13,11 @@ class MyLocation(CallbackData, prefix='my_location'):
 
 def menu_start():
     keyboard = InlineKeyboardBuilder()
-    keyboard.button(text='Твой Профиль', callback_data=MyCallBack(zap='profile'))
+    keyboard.button(text='🖥 Твой Профиль', callback_data=MyCallBack(zap='profile'))
     keyboard.button(text='🤙Купить курить🤙', callback_data=MyCallBack(zap='buy'))
     keyboard.button(text='‼️Акция "Приведи друга"‼️', callback_data=MyCallBack(zap='refs'))
-    keyboard.button(text='Информация📌', callback_data=MyCallBack(zap='inform'))
-    keyboard.button(text='Связь', callback_data=MyCallBack(zap='call_back'))
+    keyboard.button(text='Информация 📌', callback_data=MyCallBack(zap='inform'))
+    keyboard.button(text='Связь 📲', callback_data=MyCallBack(zap='call_back'))
     keyboard.adjust(2, 1, 2)
     return keyboard.as_markup()
 

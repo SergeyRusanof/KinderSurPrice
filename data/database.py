@@ -15,7 +15,14 @@ class DataBase:
                                 'your_friend INTEGER'
                                 'bonus INTEGER'
                                 ')')
-            
+
+    def location_base(self):
+        with self.conn:
+            self.cursor.execute('CREATE TABLE IF NOT EXISTS locations (id INTEGER PRIMARY KEY AUTOINCREMENT,'
+                                'product TEXT'
+                                'area TEXT'
+                                'foto1 TEXT'
+                                'foto2 TEXT)')
     def add_user(self, user_id, user_name, count_pay, friends, your_friend, bonus):
         with self.conn:
             self.cursor.execute('INSERT INTO narkos (user_id, user_name, count_pay, friends, your_friend, bonus) VALUES (?, ?, ?, ?, ?, ?, ?)', (user_id, user_name, count_pay, friends, your_friend, bonus))
