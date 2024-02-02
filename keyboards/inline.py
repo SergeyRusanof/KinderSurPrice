@@ -41,6 +41,6 @@ def location():
     keyboard.button(text='Фильтры', callback_data=MyLocation(loc='filtry'))
     keyboard.button(text='Ватутино', callback_data=MyLocation(loc='vatut'))
     keyboard.button(text='Красный', callback_data=MyLocation(loc='red'))
-    keyboard.button(text='Юзовский', callback_data=MyLocation(loc='uzov'))
+    keyboard.button(text='Зуевский', callback_data=MyLocation(loc='zuev'))
     keyboard.adjust(2,2,2)
     return keyboard.as_markup()
