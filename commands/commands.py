@@ -2,8 +2,10 @@ from aiogram.types import Message
 from aiogram.filters import CommandStart, Command
 from aiogram import Router, Bot, types
 from keyboards.inline import menu_start
+from data.database import DataBase
 
 router_commands = Router()
+db = DataBase('mainbase.db')
 
 
 @router_commands.message(CommandStart())
@@ -12,7 +14,7 @@ async def start(message: Message, bot: Bot):
         check_id = message.text[7:]
         referer_id = str(check_id)
         print(referer_id)
-        if referer_id is None:
+        if DataBase.check_user(referer_id) == False:
             print(referer_id)
         if referer_id and referer_id != str(message.from_user.id):
             await is_refers(message, message.from_user.id, referer_id)

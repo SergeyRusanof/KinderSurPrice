@@ -22,7 +22,9 @@ class DataBase:
                                 'product TEXT'
                                 'area TEXT'
                                 'foto1 TEXT'
-                                'foto2 TEXT)')
+                                'foto2 TEXT'
+                                'price INTEGER)')
+
     def add_user(self, user_id, user_name, count_pay, friends, your_friend, bonus):
         with self.conn:
             self.cursor.execute('INSERT INTO narkos (user_id, user_name, count_pay, friends, your_friend, bonus) VALUES (?, ?, ?, ?, ?, ?, ?)', (user_id, user_name, count_pay, friends, your_friend, bonus))
