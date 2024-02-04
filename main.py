@@ -13,6 +13,7 @@ from data.database import DataBase
 load_dotenv(find_dotenv())
 db = DataBase('mainbase.db')
 
+
 async def main():
     logging.basicConfig(level=logging.INFO)
     bot = Bot(token=os.getenv('TOKEN'))
