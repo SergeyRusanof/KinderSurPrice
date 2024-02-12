@@ -20,6 +20,7 @@ async def main():
     dp = Dispatcher()
     db.create_table()
     db.location_base()
+    db.refers_table()
     dp.include_router(router_commands)
     dp.include_router(router_photo_filter)
     dp.include_router(call_router)
