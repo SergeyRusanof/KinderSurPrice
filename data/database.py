@@ -16,16 +16,16 @@ class DataBase:
 
     def refers_table(self):
         with self.conn:
-            self.cursor.execute('CREATE TABLE IF NOT EXISTS refers (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, friends INTEGER, your_friends INTEGER)')
+            self.cursor.execute('CREATE TABLE IF NOT EXISTS refers (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, friends INTEGER, your_friend INTEGER)')
 
     def add_user_in_narcos(self, user_id, count_pay, bonus):
         with self.conn:
             self.cursor.execute('INSERT OR IGNORE INTO narkos (user_id, count_pay, bonus) VALUES (?, ?, ?)', (user_id, count_pay, bonus))
             self.conn.commit()
 
-    def add_user_in_refers(self, user_id, friends, your_friends):
+    def add_user_in_refers(self, user_id, friends, your_friend):
         with self.conn:
-            self.cursor.execute('INSERT OR IGNORE INTO refers (user_id, friends, your_friends) VALUES (?, ?, ?)', (user_id, friends, your_friends))
+            self.cursor.execute('INSERT OR IGNORE INTO refers (user_id, friends, your_friend) VALUES (?, ?, ?)', (user_id, friends, your_friend))
             self.conn.commit()
 
     def check_user(self, user_id):
@@ -43,8 +43,8 @@ class DataBase:
             result = self.cursor.execute('SELECT user_id FROM refers WHERE user_id = ?', (user_id,)).fetchone()
             return result
 
-    def your_friends(self, user_id, your_friends):
+    def your_friend(self, user_id, your_friend):
         with self.conn:
-            result = self.cursor.execute('UPDATE refers SET your_friends = ? WHERE user_id = ?', (user_id, your_friends))
+            result = self.cursor.execute('UPDATE refers SET your_friend = ? WHERE user_id = ?', (user_id, your_friend))
             self.conn.commit()
 
