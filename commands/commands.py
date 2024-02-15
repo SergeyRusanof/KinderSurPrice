@@ -14,7 +14,6 @@ db = DataBase('mainbase.db')
 async def start(message: Message):
     if message.chat.type == 'private':
         user_id = message.chat.id
-        print(user_id)
         check_id = message.text[7:]
         referer_id = str(check_id)
         print(referer_id)
@@ -25,7 +24,7 @@ async def start(message: Message):
                                            caption=f'✌️Привет - привет_1, {message.from_user.first_name}\n\n🔊Магазин KinderSurprice приветствует тебя!\n\nМы топим за качество и насыпь! ♥️',
                                            reply_markup=menu_start())
                 db.add_user_in_narcos(user_id, count_pay=0, bonus=0)
-                db.add_user_in_refers(user_id, friends=None, your_friends=None)
+                db.add_user_in_refers(user_id, friends=None, your_friend=None)
             else:
                 pic = 'AgACAgEAAxkBAAMrZa_prvjsFGrgkm9ArzDReGUdL5MAAhCsMRtuFoFFHavg8sGnsF8BAAMCAAN4AAM0BA'
                 await message.answer_photo(pic,
@@ -33,20 +32,21 @@ async def start(message: Message):
                                            reply_markup=menu_start())
 
         else:
-            if user_id == referer_id:  # Если есть id реферера
-                print(referer_id)
-                print(user_id)
+            if int(user_id) == int(referer_id):  # Если есть id реферера
                 await message.answer('Ты пытаешься стать своим рефералом - это невозможно!')
                 await asyncio.sleep(2)
                 pic = 'AgACAgEAAxkBAAMrZa_prvjsFGrgkm9ArzDReGUdL5MAAhCsMRtuFoFFHavg8sGnsF8BAAMCAAN4AAM0BA'
                 await message.answer_photo(pic,
-                                           caption=f'✌️Привет - привет_3, {message.from_user.first_name}\n\n🔊Магазин KinderSurprice приветствует тебя!\n\nМы топим за качество и насыпь! ♥️',
+                                           caption=f'✌️Привет - привет, {message.from_user.first_name}!\n\n🔊Магаз KinderSurprice приветствует тебя!\n\nМы топим за качество и насыпь! ♥️',
                                            reply_markup=menu_start())
 
-            else:
-                db.your_friend(user_id, referer_id)
+                db.add_user_in_refers(user_id, friends=None, your_friend=None)
                 db.add_user_in_narcos(user_id, count_pay=0, bonus=0)
-                db.add_user_in_refers(user_id, friends=None, your_friends=None)
+            else:
+                db.add_user_in_narcos(user_id, count_pay=0, bonus=0)
+                db.add_user_in_refers(user_id, friends=None, your_friend=None)
+                db.your_friend(user_id, referer_id)
+                db.friends(referer_id, user_id)
                 pic = 'AgACAgEAAxkBAAMrZa_prvjsFGrgkm9ArzDReGUdL5MAAhCsMRtuFoFFHavg8sGnsF8BAAMCAAN4AAM0BA'
                 await message.answer_photo(pic,
                                            caption=f'✌️Привет - привет_4, {message.from_user.first_name}\n\n🔊Магазин KinderSurprice приветствует тебя!\n\nМы топим за качество и насыпь! ♥️',

@@ -7,16 +7,19 @@ class DataBase:
         self.cursor = self.conn.cursor()
 
     def create_table(self):
+        """Создание основной таблицы юзеров"""
         with self.conn:
-            self.cursor.execute('CREATE TABLE IF NOT EXISTS narkos (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, count_pay INTEGER, bonus INTEGER)')
+            self.cursor.execute('CREATE TABLE IF NOT EXISTS narkos (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER UNIQUE, count_pay INTEGER, bonus INTEGER)')
 
     def location_base(self):
+        """Создание таблицы локаций"""
         with self.conn:
             self.cursor.execute('CREATE TABLE IF NOT EXISTS locations (id INTEGER PRIMARY KEY AUTOINCREMENT, product TEXT, price INTEGER, area TEXT, foto1 TEXT, foto2 TEXT)')
 
     def refers_table(self):
+        """Создание таблицы рефералов"""
         with self.conn:
-            self.cursor.execute('CREATE TABLE IF NOT EXISTS refers (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, friends INTEGER, your_friend INTEGER)')
+            self.cursor.execute('CREATE TABLE IF NOT EXISTS refers (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER UNIQUE, friends INTEGER, your_friend INTEGER)')
 
     def add_user_in_narcos(self, user_id, count_pay, bonus):
         with self.conn:
@@ -45,6 +48,11 @@ class DataBase:
 
     def your_friend(self, user_id, your_friend):
         with self.conn:
-            result = self.cursor.execute('UPDATE refers SET your_friend = ? WHERE user_id = ?', (user_id, your_friend))
+            result = self.cursor.execute('UPDATE refers SET your_friend = ? WHERE user_id = ?', (your_friend, user_id))
+            self.conn.commit()
+
+    def friends(self, user_id, friends):
+        with self.conn:
+            result = self.cursor.execute('UPDATE refers SET friends=? WHERE user_id=?', (friends, user_id))
             self.conn.commit()
 
