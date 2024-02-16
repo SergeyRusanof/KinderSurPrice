@@ -25,6 +25,7 @@ async def start(message: Message):
                                            reply_markup=menu_start())
                 db.add_user_in_narcos(user_id, count_pay=0, bonus=0)
                 db.add_user_in_refers(user_id, friends=None, your_friend=None)
+                db.add_in_to_buy(user_id, prod=None, location=None, price=None)
             else:
                 pic = 'AgACAgEAAxkBAAMrZa_prvjsFGrgkm9ArzDReGUdL5MAAhCsMRtuFoFFHavg8sGnsF8BAAMCAAN4AAM0BA'
                 await message.answer_photo(pic,
@@ -42,9 +43,12 @@ async def start(message: Message):
 
                 db.add_user_in_refers(user_id, friends=None, your_friend=None)
                 db.add_user_in_narcos(user_id, count_pay=0, bonus=0)
+                db.add_in_to_buy(user_id, prod=None, location=None, price=None)
             else:
-                db.add_user_in_narcos(user_id, count_pay=0, bonus=0)
-                db.add_user_in_refers(user_id, friends=None, your_friend=None)
+                db.add_user_in_narcos(user_id, count_pay=0, bonus=0) # В таблицу наркоманов
+                db.add_user_in_refers(user_id, friends=None, your_friend=None) # В таблицу рефералов
+                db.add_in_to_buy(user_id, prod=None, location=None, price=None) # В таблицу заказа
+
                 db.your_friend(user_id, referer_id)
                 db.friends(referer_id, user_id)
                 pic = 'AgACAgEAAxkBAAMrZa_prvjsFGrgkm9ArzDReGUdL5MAAhCsMRtuFoFFHavg8sGnsF8BAAMCAAN4AAM0BA'

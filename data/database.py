@@ -21,6 +21,11 @@ class DataBase:
         with self.conn:
             self.cursor.execute('CREATE TABLE IF NOT EXISTS refers (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER UNIQUE, friends INTEGER, your_friend INTEGER)')
 
+    def to_buy_table(self):
+        """Создание таблицы для покупки товара"""
+        with self.conn:
+            self.cursor.execute('CREATE TABLE IF NOT EXISTS to_buy (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER UNIQUE, prod TEXT, location TEXT, price INTEGER)')
+
     def add_user_in_narcos(self, user_id, count_pay, bonus):
         with self.conn:
             self.cursor.execute('INSERT OR IGNORE INTO narkos (user_id, count_pay, bonus) VALUES (?, ?, ?)', (user_id, count_pay, bonus))
@@ -29,6 +34,11 @@ class DataBase:
     def add_user_in_refers(self, user_id, friends, your_friend):
         with self.conn:
             self.cursor.execute('INSERT OR IGNORE INTO refers (user_id, friends, your_friend) VALUES (?, ?, ?)', (user_id, friends, your_friend))
+            self.conn.commit()
+
+    def add_in_to_buy(self, user_id, prod, location, price):
+        with self.conn:
+            self.cursor.execute('INSERT OR IGNORE INTO to_buy (user_id, prod, location, price) VALUES (?, ?, ?, ?)', (user_id, prod, location, price))
             self.conn.commit()
 
     def check_user(self, user_id):
@@ -56,3 +66,17 @@ class DataBase:
             result = self.cursor.execute('UPDATE refers SET friends=? WHERE user_id=?', (friends, user_id))
             self.conn.commit()
 
+    def add_product(self, user_id, prod, price):
+        """Добавляем выбранный товар"""
+        with self.conn:
+            result = self.cursor.execute('UPDATE to_buy SET prod=?, price=? WHERE user_id=?', (prod, price, user_id))
+
+    def add_location(self, user_id, location):
+        """Добавляем выбранный район"""
+        with self.conn:
+            result = self.cursor.execute('UPDATE to_buy SET location=? WHERE user_id=?', (location, user_id))
+
+    def list_pay(self, user_id):
+        with self.conn:
+            result = self.cursor.execute('SELECT * FROM to_buy WHERE user_id=?', (user_id,)).fetchone()
+            return result

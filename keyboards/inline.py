@@ -11,6 +11,10 @@ class MyLocation(CallbackData, prefix='my_location'):
     loc: str
 
 
+class ToBuy(CallbackData, prefix='to_buy'):
+    buy: str
+
+
 def menu_start():
     keyboard = InlineKeyboardBuilder()
     keyboard.button(text='🖥 Твой Профиль', callback_data=MyCallBack(zap='profile'))
@@ -42,5 +46,13 @@ def location():
     keyboard.button(text='Ватутино', callback_data=MyLocation(loc='vatut'))
     keyboard.button(text='Красный', callback_data=MyLocation(loc='red'))
     keyboard.button(text='Зуевский', callback_data=MyLocation(loc='zuev'))
+    keyboard.adjust(2,2,2)
+    return keyboard.as_markup()
+
+
+def list_pay():
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(text='Купить', callback_data=ToBuy(buy='ok_pay'))
+    keyboard.button(text='Отменить', callback_data=ToBuy(buy='cancel'))
     keyboard.adjust(2,2,2)
     return keyboard.as_markup()
