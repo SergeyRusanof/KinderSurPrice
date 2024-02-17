@@ -23,6 +23,7 @@ async def main():
     db.location_base()
     db.refers_table()
     db.to_buy_table()
+    db.payment_table()
     dp.include_router(router_commands)
     dp.include_router(router_photo_filter)
     dp.include_router(call_router)

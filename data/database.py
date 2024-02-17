@@ -1,4 +1,5 @@
 import sqlite3
+from configure.config import ADMIN
 
 
 class DataBase:
@@ -25,6 +26,12 @@ class DataBase:
         """Создание таблицы для покупки товара"""
         with self.conn:
             self.cursor.execute('CREATE TABLE IF NOT EXISTS to_buy (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER UNIQUE, prod TEXT, location TEXT, price INTEGER)')
+
+    def payment_table(self):
+        """Создание таблицы для оплаты"""
+        with self.conn:
+            self.cursor.execute('CREATE TABLE IF NOT EXISTS payment (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER UNIQUE, name TEXT, role TEXT, status BOOLEAN NOT NULL DEFAULT (False), label TEXT DEFAULT (1))')
+
 
     def add_user_in_narcos(self, user_id, count_pay, bonus):
         with self.conn:
@@ -80,3 +87,20 @@ class DataBase:
         with self.conn:
             result = self.cursor.execute('SELECT * FROM to_buy WHERE user_id=?', (user_id,)).fetchone()
             return result
+
+    async def add_users_payment(self, user_id, name):
+        """Добавляем в базу оплаты"""
+        with self.conn:
+            return self.cursor.execute("""INSERT OR IGNORE INTO payment (user_id, name, role) VALUES(?, ?, ?)""", [user_id, name, 'admin' if user_id == int(ADMIN) else 'user'])
+
+    async def update_label(self, label_id, user_id):
+        with self.conn:
+            return self.cursor.execute('UPDATE payment SET label=? WHERE user_id=?', (label_id, user_id))
+
+    async def get_payment_status(self, user_id):
+        with self.conn:
+            return self.cursor.execute('SELECT status, label FROM payment WHERE user_id=?', (user_id,)).fetchall()
+
+    async def update_payment_status(self, user_id):
+        with self.conn:
+            return self.cursor.execute('UPDATE payment SET status=? WHERE user_id=?', (True, user_id))
