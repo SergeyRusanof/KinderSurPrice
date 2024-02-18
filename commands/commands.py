@@ -21,7 +21,7 @@ async def start(message: Message):
             if db.in_is_narcos(user_id) is None:  # Если нет id в базе, то добавляем
                 pic = 'AgACAgEAAxkBAAMrZa_prvjsFGrgkm9ArzDReGUdL5MAAhCsMRtuFoFFHavg8sGnsF8BAAMCAAN4AAM0BA'
                 await message.answer_photo(pic,
-                                           caption=f'✌️Привет - привет_1, {message.from_user.first_name}\n\n🔊Магазин KinderSurprice приветствует тебя!\n\nМы топим за качество и насыпь! ♥️',
+                                           caption=f'✌️Привет - привет, {message.from_user.first_name}\n\n🔊Магазин KinderSurprice приветствует тебя!\n\nМы топим за качество и насыпь! ♥️',
                                            reply_markup=menu_start())
                 db.add_user_in_narcos(user_id, count_pay=0, bonus=0)
                 db.add_user_in_refers(user_id, friends=None, your_friend=None)
@@ -46,13 +46,11 @@ async def start(message: Message):
                 db.add_user_in_narcos(user_id, count_pay=0, bonus=0)
                 db.add_in_to_buy(user_id, prod=None, location=None, price=None)
                 await db.add_users_payment(user_id, name)
-
             else:
                 db.add_user_in_narcos(user_id, count_pay=0, bonus=0) # В таблицу наркоманов
                 db.add_user_in_refers(user_id, friends=None, your_friend=None) # В таблицу рефералов
                 db.add_in_to_buy(user_id, prod=None, location=None, price=None) # В таблицу заказа
                 await db.add_users_payment(user_id, name)
-
                 db.your_friend(user_id, referer_id)
                 db.friends(referer_id, user_id)
                 pic = 'AgACAgEAAxkBAAMrZa_prvjsFGrgkm9ArzDReGUdL5MAAhCsMRtuFoFFHavg8sGnsF8BAAMCAAN4AAM0BA'
@@ -63,4 +61,4 @@ async def start(message: Message):
 
 @router_commands.message(Command('admin'))
 async def admin(message: Message):
-    await message.answer('Привет Админ!')
+    going_to_admin()

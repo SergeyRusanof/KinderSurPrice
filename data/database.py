@@ -30,7 +30,8 @@ class DataBase:
     def payment_table(self):
         """Создание таблицы для оплаты"""
         with self.conn:
-            self.cursor.execute('CREATE TABLE IF NOT EXISTS payment (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER UNIQUE, name TEXT, role TEXT, status BOOLEAN NOT NULL DEFAULT (False), label TEXT DEFAULT (1))')
+            self.cursor.execute('CREATE TABLE IF NOT EXISTS payment (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, name TEXT, role TEXT, status BOOLEAN NOT NULL DEFAULT (False), label TEXT DEFAULT (1), count INTEGER DEFAULT (0))')
+
 
 
     def add_user_in_narcos(self, user_id, count_pay, bonus):
@@ -91,7 +92,7 @@ class DataBase:
     async def add_users_payment(self, user_id, name):
         """Добавляем в базу оплаты"""
         with self.conn:
-            return self.cursor.execute("""INSERT OR IGNORE INTO payment (user_id, name, role) VALUES(?, ?, ?)""", [user_id, name, 'admin' if user_id == int(ADMIN) else 'user'])
+            return self.cursor.execute("""INSERT INTO payment (user_id, name, role) VALUES (?, ?, ?)""", [user_id, name, 'admin' if user_id == int(ADMIN) else 'user'])
 
     async def update_label(self, label_id, user_id):
         with self.conn:
@@ -103,4 +104,12 @@ class DataBase:
 
     async def update_payment_status(self, user_id):
         with self.conn:
-            return self.cursor.execute('UPDATE payment SET status=? WHERE user_id=?', (True, user_id))
+            return self.cursor.execute('UPDATE payment SET status=?, count=count+1 WHERE user_id=?', (True, user_id))
+
+    async def clear_payment_status(self, user_id):
+        with self.conn:
+            return self.cursor.execute('UPDATE payment SET status=FALSE, label=1 WHERE user_id=?', (user_id,))
+
+    def get_location(self, area, amount):
+        with self.conn:
+            return self.cursor.execute('SELECT * FROM locations WHERE area=? and price=?', (area, amount)).fetchall()

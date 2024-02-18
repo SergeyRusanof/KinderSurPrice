@@ -73,7 +73,7 @@ async def buy(call: CallbackQuery):
     user_id = call.message.chat.id
     db.add_location(user_id, 'Центр')
     res = db.list_pay(user_id)
-    await call.message.answer(f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n\nПри оплате укажи свой id-{call.message.chat.id} в комментарии к платежу.', reply_markup=list_pay())
+    await call.message.answer(f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n', reply_markup=list_pay())
     await call.message.delete()
 
 
@@ -83,7 +83,7 @@ async def buy(call: CallbackQuery):
     db.add_location(user_id, 'Блочок')
     res = db.list_pay(user_id)
     await call.message.answer(
-        f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n\nПри оплате укажи свой id-{call.message.chat.id} в комментарии к платежу.',
+        f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n',
         reply_markup=list_pay())
     await call.message.delete()
 
@@ -94,7 +94,7 @@ async def buy(call: CallbackQuery):
     db.add_location(user_id, 'Фильтровальная')
     res = db.list_pay(user_id)
     await call.message.answer(
-        f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n\nПри оплате укажи свой id-{call.message.chat.id} в комментарии к платежу.',
+        f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n',
         reply_markup=list_pay())
     await call.message.delete()
 
@@ -105,7 +105,7 @@ async def buy(call: CallbackQuery):
     db.add_location(user_id, 'Ватутино')
     res = db.list_pay(user_id)
     await call.message.answer(
-        f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n\nПри оплате укажи свой id-{call.message.chat.id} в комментарии к платежу.',
+        f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n',
         reply_markup=list_pay())
     await call.message.delete()
 
@@ -116,7 +116,7 @@ async def buy(call: CallbackQuery):
     db.add_location(user_id, 'Красный городок')
     res = db.list_pay(user_id)
     await call.message.answer(
-        f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n\nПри оплате укажи свой id-{call.message.chat.id} в комментарии к платежу.',
+        f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n',
         reply_markup=list_pay())
     await call.message.delete()
 
@@ -127,7 +127,7 @@ async def buy(call: CallbackQuery):
     db.add_location(user_id, 'Зуевский переезд')
     res = db.list_pay(user_id)
     await call.message.answer(
-        f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n\nПри оплате укажи свой id-{call.message.chat.id} в комментарии к платежу.',
+        f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n',
         reply_markup=list_pay())
     await call.message.delete()
 
