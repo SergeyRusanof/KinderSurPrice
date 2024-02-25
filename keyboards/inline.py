@@ -1,5 +1,4 @@
 from aiogram.filters.callback_data import CallbackData
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 
@@ -13,6 +12,10 @@ class MyLocation(CallbackData, prefix='my_location'):
 
 class ToBuy(CallbackData, prefix='to_buy'):
     buy: str
+
+
+class ToAdmin(CallbackData, prefix='to_adm'):
+    adm: str
 
 
 def menu_start():
@@ -55,4 +58,13 @@ def list_pay():
     keyboard.button(text='Купить', callback_data=ToBuy(buy='ok_pay'))
     keyboard.button(text='Отменить', callback_data=ToBuy(buy='cancel'))
     keyboard.adjust(2,2,2)
+    return keyboard.as_markup()
+
+
+def admin_start():
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(text='Добавить локацию', callback_data=ToAdmin(adm='add_loc'))
+    keyboard.button(text='Просмотреть данные по id', callback_data=ToAdmin(adm='look_id'))
+    keyboard.button(text='Выдать бонус по id', callback_data=ToAdmin(adm='get_bonus'))
+    keyboard.adjust(2, 2, 2)
     return keyboard.as_markup()

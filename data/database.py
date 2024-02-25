@@ -113,3 +113,8 @@ class DataBase:
     def get_location(self, area, amount):
         with self.conn:
             return self.cursor.execute('SELECT * FROM locations WHERE area=? and price=?', (area, amount)).fetchall()
+
+    def get_info(self, user_id):
+        with self.conn:
+            return self.cursor.execute('SELECT * FROM narkos WHERE user_id=?', (user_id,)).fetchall()
+

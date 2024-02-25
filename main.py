@@ -7,7 +7,7 @@ from filters.filters import router_photo_filter
 from callback.callbackquery import call_router
 from pay.pay import pay_router
 from utils.ref_system import refs_router
-
+from admin.admin import admin_router
 
 from dotenv import load_dotenv, find_dotenv
 from data.database import DataBase
@@ -30,6 +30,7 @@ async def main():
     dp.include_router(call_router)
     dp.include_router(refs_router)
     dp.include_router(pay_router)
+    dp.include_router(admin_router)
 
     try:
         await dp.start_polling(bot)
