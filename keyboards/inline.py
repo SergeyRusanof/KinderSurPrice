@@ -66,5 +66,7 @@ def admin_start():
     keyboard.button(text='Добавить локацию', callback_data=ToAdmin(adm='add_loc'))
     keyboard.button(text='Просмотреть данные по id', callback_data=ToAdmin(adm='look_id'))
     keyboard.button(text='Выдать бонус по id', callback_data=ToAdmin(adm='get_bonus'))
+    keyboard.button(text='Все участники', callback_data=ToAdmin(adm='all_users'))
+    keyboard.button(text='Продажи', callback_data=ToAdmin(adm='stat_sales'))
     keyboard.adjust(2, 2, 2)
     return keyboard.as_markup()
