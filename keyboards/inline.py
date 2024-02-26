@@ -4,6 +4,7 @@ from data.database import DataBase
 
 db = DataBase('mainbase.db')
 
+
 class MyCallBack(CallbackData, prefix='my_callback'):
     zap: str
 
@@ -75,5 +76,13 @@ def admin_start():
     keyboard.button(text='Выдать бонус по id', callback_data=ToAdmin(adm='get_bonus'))
     keyboard.button(text='Все участники', callback_data=ToAdmin(adm='all_users'))
     keyboard.button(text='Продажи', callback_data=ToAdmin(adm='stat_sales'))
+    keyboard.adjust(2, 2, 2)
+    return keyboard.as_markup()
+
+
+def menu_profile():
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(text='Забрать бонус', callback_data='ghr')
+    keyboard.button(text='Назад', callback_data='bdf')
     keyboard.adjust(2, 2, 2)
     return keyboard.as_markup()

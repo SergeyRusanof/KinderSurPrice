@@ -53,7 +53,7 @@ async def cancel_fsm(message: types.Message, state: FSMContext):
 
 @admin_router.callback_query(StateFilter(None), ToAdmin.filter(F.adm == 'add_loc'))
 async def add_product(call: CallbackQuery, state: FSMContext):
-    await call.message.answer('Отправь товар "Грамм", "Полка(0,5 грамма)"..')
+    await call.message.answer('Отправь товар "Грамм", "Полка (0,5 грамма)"..')
     await state.set_state(AddLocation.product)
 
 

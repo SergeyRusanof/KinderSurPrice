@@ -2,7 +2,7 @@ from aiogram import types, Router, F
 from aiogram.types import CallbackQuery
 from data.database import DataBase
 from keyboards.inline import MyCallBack, MyLocation
-from keyboards.inline import sale_menu, location, list_pay
+from keyboards.inline import sale_menu, location, list_pay, menu_profile
 
 db = DataBase('mainbase.db')
 call_router = Router()
@@ -10,7 +10,10 @@ call_router = Router()
 
 @call_router.callback_query(MyCallBack.filter(F.zap == "profile"))
 async def buy(call: CallbackQuery):
-    await call.message.answer('Твой профиль')
+    await call.message.answer(f'Твой профиль {call.message.chat.first_name}'
+                              f'\n\nКоличество покупок: {db.count_pays(call.message.chat.id)}'
+                              f'\nТвои рефералы: '
+                              f'\nБонусы: ', reply_markup=menu_profile())
 
 
 @call_router.callback_query(MyCallBack.filter(F.zap == "buy"))

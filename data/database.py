@@ -32,8 +32,6 @@ class DataBase:
         with self.conn:
             self.cursor.execute('CREATE TABLE IF NOT EXISTS payment (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, name TEXT, role TEXT, status BOOLEAN NOT NULL DEFAULT (False), label TEXT DEFAULT (1), count INTEGER DEFAULT (0))')
 
-
-
     def add_user_in_narcos(self, user_id, count_pay, bonus):
         with self.conn:
             self.cursor.execute('INSERT OR IGNORE INTO narkos (user_id, count_pay, bonus) VALUES (?, ?, ?)', (user_id, count_pay, bonus))
@@ -127,6 +125,15 @@ class DataBase:
         """Определение количества товаров в таблице"""
         with self.conn:
             self.cursor.execute("SELECT COUNT(*) FROM locations WHERE product=?", (product,))
+            result = self.cursor.fetchone()
+            if result:
+                return result[0]  # Возвращаем количество товаров
+            else:
+                return 0  # Если таблица пуста, возвращаем 0
+
+    def count_pays(self, user_id):
+        with self.conn:
+            self.cursor.execute("SELECT count FROM payment WHERE user_id=?", (user_id,))
             result = self.cursor.fetchone()
             if result:
                 return result[0]  # Возвращаем количество товаров
