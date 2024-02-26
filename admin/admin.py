@@ -82,6 +82,10 @@ async def add_foto(message: types.Message, state: FSMContext):
 async def add_foto(message: types.Message, state: FSMContext):
     await state.update_data(foto=message.photo[-1].file_id)
     data = await state.get_data()
-    await message.answer(f'Готово:\n\n{data}')
-    print(data)
+    product = data['product']
+    price = data['price']
+    area = data['area']
+    foto = data['foto']
+    db.add_loc(product, price, area, foto)
+    await message.answer(f'Готово:\n\nТовар - {product}\nЦена - {price}\nРайон - {area}')
     await state.clear()

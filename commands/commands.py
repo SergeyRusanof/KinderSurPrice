@@ -7,8 +7,8 @@ from keyboards.inline import menu_start
 from data.database import DataBase
 
 
-
 router_commands = Router()
+
 db = DataBase('mainbase.db')
 
 

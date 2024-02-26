@@ -1,6 +1,8 @@
 from aiogram.filters.callback_data import CallbackData
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from data.database import DataBase
 
+db = DataBase('mainbase.db')
 
 class MyCallBack(CallbackData, prefix='my_callback'):
     zap: str
@@ -30,13 +32,18 @@ def menu_start():
 
 
 def sale_menu():
+    gr = db.count_products('Грамм')
+    pgr = db.count_products('Полка (0,5 грамма)')
+    kr = db.count_products('Корабль')
+    pkr = db.count_products('Полка (0,5 корабля)')
+    decl = db.count_products('Пятка')
     keyboard = InlineKeyboardBuilder()
-    keyboard.button(text='🥴Купить грамм', callback_data=MyCallBack(zap='gramm'))
-    keyboard.button(text='Полка(0.5гр)', callback_data=MyCallBack(zap='polka'))
-    keyboard.button(text='🚢Купить корабль', callback_data=MyCallBack(zap='full'))
-    keyboard.button(text='Полка(0.5корабля)', callback_data=MyCallBack(zap='path_full'))
+    keyboard.button(text=f'🥴Купить грамм *({gr}шт)*', callback_data=MyCallBack(zap='gramm'))
+    keyboard.button(text=f'Полка(0.5гр)  *({pgr}шт)*', callback_data=MyCallBack(zap='polka'))
+    keyboard.button(text=f'🚢Купить корабль  *({kr}шт)*', callback_data=MyCallBack(zap='full'))
+    keyboard.button(text=f'Полка(0.5корабля)  *({pgr}шт)*', callback_data=MyCallBack(zap='path_full'))
     keyboard.button(text='🤯Купить стакан', callback_data=MyCallBack(zap='glass'))
-    keyboard.button(text='🤫Пятка', callback_data=MyCallBack(zap='decl'))
+    keyboard.button(text=f'🤫Пятка  *({decl}шт)*', callback_data=MyCallBack(zap='decl'))
     keyboard.adjust(2,2,2)
     return keyboard.as_markup()
 

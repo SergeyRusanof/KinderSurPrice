@@ -124,7 +124,7 @@ async def buy(call: CallbackQuery):
 @call_router.callback_query(MyLocation.filter(F.loc == 'zuev'))
 async def buy(call: CallbackQuery):
     user_id = call.message.chat.id
-    db.add_location(user_id, 'Зуевский переезд')
+    db.add_location(user_id, 'Зуевский')
     res = db.list_pay(user_id)
     await call.message.answer(
         f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n',

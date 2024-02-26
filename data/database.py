@@ -15,7 +15,7 @@ class DataBase:
     def location_base(self):
         """Создание таблицы локаций"""
         with self.conn:
-            self.cursor.execute('CREATE TABLE IF NOT EXISTS locations (id INTEGER PRIMARY KEY AUTOINCREMENT, product TEXT, price INTEGER, area TEXT, foto1 TEXT, foto2 TEXT)')
+            self.cursor.execute('CREATE TABLE IF NOT EXISTS locations (id INTEGER PRIMARY KEY AUTOINCREMENT, product TEXT, price INTEGER, area TEXT, foto1 TEXT)')
 
     def refers_table(self):
         """Создание таблицы рефералов"""
@@ -117,4 +117,19 @@ class DataBase:
     def get_info(self, user_id):
         with self.conn:
             return self.cursor.execute('SELECT * FROM narkos WHERE user_id=?', (user_id,)).fetchall()
+
+    def add_loc(self, product, price, area, foto1):
+        """Добавление новой локации в таблицу"""
+        with self.conn:
+            self.cursor.execute('''INSERT INTO locations (product, price, area, foto1) VALUES (?, ?, ?, ?)''', (product, price, area, foto1))
+
+    def count_products(self, product):
+        """Определение количества товаров в таблице"""
+        with self.conn:
+            self.cursor.execute("SELECT COUNT(*) FROM locations WHERE product=?", (product,))
+            result = self.cursor.fetchone()
+            if result:
+                return result[0]  # Возвращаем количество товаров
+            else:
+                return 0  # Если таблица пуста, возвращаем 0
 
