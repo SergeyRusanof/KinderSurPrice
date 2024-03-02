@@ -21,6 +21,10 @@ class ToAdmin(CallbackData, prefix='to_adm'):
     adm: str
 
 
+class ToProf(CallbackData, prefix='to_prof'):
+    prof: str
+
+
 def menu_start():
     keyboard = InlineKeyboardBuilder()
     keyboard.button(text='🖥 Твой Профиль', callback_data=MyCallBack(zap='profile'))
@@ -82,7 +86,5 @@ def admin_start():
 
 def menu_profile():
     keyboard = InlineKeyboardBuilder()
-    keyboard.button(text='Забрать бонус', callback_data=ToAdmin(adm='take_bonus'))
-    keyboard.button(text='Назад', callback_data=ToAdmin(adm='back'))
-    keyboard.adjust(2, 2, 2)
+    keyboard.button(text='Забрать бонус', callback_data=ToProf(prof='take_bonus'))
     return keyboard.as_markup()

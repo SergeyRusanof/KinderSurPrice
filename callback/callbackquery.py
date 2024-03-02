@@ -3,7 +3,7 @@ from aiogram.types import CallbackQuery, Message
 
 import commands.commands
 from data.database import DataBase
-from keyboards.inline import MyCallBack, MyLocation, ToBuy, menu_start, ToAdmin
+from keyboards.inline import MyCallBack, MyLocation, ToBuy, menu_start, ToAdmin, ToProf
 from keyboards.inline import sale_menu, location, list_pay, menu_profile
 
 db = DataBase('mainbase.db')
@@ -12,10 +12,11 @@ call_router = Router()
 
 @call_router.callback_query(MyCallBack.filter(F.zap == "profile"))
 async def buy(call: CallbackQuery):
+    data = db.take_bonus(call.message.chat.id)
     await call.message.answer(f'Твой профиль {call.message.chat.first_name}'
                               f'\n\nКоличество покупок: {db.count_pays(call.message.chat.id)}'
-                              f'\nТвои рефералы: '
-                              f'\nБонусы: ', reply_markup=menu_profile())
+                              f'\n\nТы привёл: {db.prof_friends(call.message.chat.id)} друзей'
+                              f'\n\nБонусы: {db.check_bonus(call.message.chat.id)}', reply_markup=menu_profile())
 
 
 @call_router.callback_query(MyCallBack.filter(F.zap == "buy"))
@@ -146,6 +147,10 @@ async def cancel_pay(call: CallbackQuery):
     await db.clear_payment_bd(call.message.chat.id)  # отчищаем после отмены
     await call.message.answer('Отмена заказа', reply_markup=menu_start())
 
+
+@call_router.callback_query(ToProf.filter(F.prof == 'take_bonus'))
+async def cancel_pay(call: CallbackQuery):
+    await call.message.answer('Вот Бонус!')
 
 
 

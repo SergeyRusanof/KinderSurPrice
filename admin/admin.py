@@ -34,7 +34,7 @@ async def admin(message: types.Message):
 
 @admin_router.callback_query(ToAdmin.filter(F.adm == 'take_bonus'))
 async def bonus_out(call: CallbackQuery):
-    await call.message.answer('вот бонус')
+    await call.message.answer('выдать бонус!')
 
 
 @admin_router.callback_query(ToAdmin.filter(F.adm == 'look_id'))

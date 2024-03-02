@@ -72,6 +72,11 @@ class DataBase:
             result = self.cursor.execute('UPDATE refers SET friends=? WHERE user_id=?', (friends, user_id))
             self.conn.commit()
 
+    def prof_friends(self, user_id):
+        with self.conn:
+            result = self.cursor.execute('SELECT COUNT(friends) FROM refers WHERE user_id = ?', (user_id,)).fetchone()
+            return result[0] if result else 0
+
     def add_product(self, user_id, prod, price):
         """Добавляем выбранный товар"""
         with self.conn:
@@ -154,4 +159,26 @@ class DataBase:
                 return result[0] > 0  # Возвращаем True, если товар есть в наличии, иначе False
             else:
                 return False
+
+    def take_bonus(self, user_id):
+        # Получаем всех друзей пользователя user_id
+        with self.conn:
+            friends = self.cursor.execute('SELECT friends FROM refers WHERE user_id = ?', (user_id,)).fetchall()
+        for friend_id in friends:
+            friend_id = friend_id[0]  # Распаковываем кортеж
+            with self.conn:
+                # Получаем значение count для друга
+                count = self.cursor.execute('SELECT count FROM payment WHERE user_id = ?', (friend_id,)).fetchone()
+
+            # Если count равно 1, начисляем бонус пользователю user_id
+            if count == 1:
+                with self.conn:
+                    # Начисляем бонус пользователю user_id
+                    self.cursor.execute('UPDATE narkos SET bonus = bonus + 1 WHERE user_id = ?', (user_id,))
+
+    def check_bonus(self, user_id):
+        with self.conn:
+            bonus = self.cursor.execute('SELECT bonus FROM narkos WHERE user_id = ?', (user_id,)).fetchone()
+            return bonus[0]
+
 
