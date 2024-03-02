@@ -1,7 +1,7 @@
 from aiogram import types, Router, F
 from aiogram.types import CallbackQuery, Message
 
-import commands.commands
+from configure.texts import info_text
 from data.database import DataBase
 from keyboards.inline import MyCallBack, MyLocation, ToBuy, menu_start, ToAdmin, ToProf
 from keyboards.inline import sale_menu, location, list_pay, menu_profile
@@ -152,6 +152,10 @@ async def cancel_pay(call: CallbackQuery):
 async def cancel_pay(call: CallbackQuery):
     await call.message.answer('Вот Бонус!')
 
+
+@call_router.callback_query(MyCallBack.filter(F.zap == 'inform'))
+async def cancel_pay(call: CallbackQuery):
+    await call.message.answer(f'{info_text}')
 
 
 
