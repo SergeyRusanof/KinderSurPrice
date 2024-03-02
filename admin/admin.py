@@ -32,6 +32,11 @@ async def admin(message: types.Message):
         await message.answer('Ты не Админ!')
 
 
+@admin_router.callback_query(ToAdmin.filter(F.adm == 'take_bonus'))
+async def bonus_out(call: CallbackQuery):
+    await call.message.answer('вот бонус')
+
+
 @admin_router.callback_query(ToAdmin.filter(F.adm == 'look_id'))
 async def look_id(call: CallbackQuery, state: FSMContext):
     await state.set_state(GetId.id)

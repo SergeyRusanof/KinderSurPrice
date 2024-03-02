@@ -132,6 +132,7 @@ class DataBase:
                 return 0  # Если таблица пуста, возвращаем 0
 
     def count_pays(self, user_id):
+        """Определение количества продаж в профиле"""
         with self.conn:
             self.cursor.execute("SELECT count FROM payment WHERE user_id=?", (user_id,))
             result = self.cursor.fetchone()
@@ -139,4 +140,18 @@ class DataBase:
                 return result[0]  # Возвращаем количество товаров
             else:
                 return 0  # Если таблица пуста, возвращаем 0
+
+    async def clear_payment_bd(self, user_id):
+        with self.conn:
+            return self.cursor.execute('UPDATE to_buy SET prod=NULL, location=NULL, price=NULL WHERE user_id=?', (user_id,))
+
+    def check_product_availability(self, area, product):
+        """Проверяет наличие товара в указанном районе."""
+        with self.conn:
+            self.cursor.execute("SELECT COUNT(*) FROM locations WHERE area=? AND product=?", (area, product))
+            result = self.cursor.fetchone()
+            if result:
+                return result[0] > 0  # Возвращаем True, если товар есть в наличии, иначе False
+            else:
+                return False
 

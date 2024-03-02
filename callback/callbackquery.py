@@ -1,7 +1,9 @@
 from aiogram import types, Router, F
-from aiogram.types import CallbackQuery
+from aiogram.types import CallbackQuery, Message
+
+import commands.commands
 from data.database import DataBase
-from keyboards.inline import MyCallBack, MyLocation
+from keyboards.inline import MyCallBack, MyLocation, ToBuy, menu_start, ToAdmin
 from keyboards.inline import sale_menu, location, list_pay, menu_profile
 
 db = DataBase('mainbase.db')
@@ -18,7 +20,7 @@ async def buy(call: CallbackQuery):
 
 @call_router.callback_query(MyCallBack.filter(F.zap == "buy"))
 async def buy(call: CallbackQuery):
-    await call.message.answer('🌲Выбери количество...', reply_markup=sale_menu())
+    await call.message.answer('🌲Выбери товар. Колличество указано в скобочках..', reply_markup=sale_menu())
 
 
 @call_router.callback_query(MyCallBack.filter(F.zap == "gramm"))
@@ -76,7 +78,11 @@ async def buy(call: CallbackQuery):
     user_id = call.message.chat.id
     db.add_location(user_id, 'Центр')
     res = db.list_pay(user_id)
-    await call.message.answer(f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n', reply_markup=list_pay())
+    data = db.check_product_availability(res[3], res[2])
+    if data != 0:
+        await call.message.answer(f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n', reply_markup=list_pay())
+    else:
+        await call.message.answer('к сожалению в данном районе отсутствует товар\nВыберите другую локацию..')
     await call.message.delete()
 
 
@@ -133,6 +139,16 @@ async def buy(call: CallbackQuery):
         f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n',
         reply_markup=list_pay())
     await call.message.delete()
+
+
+@call_router.callback_query(ToBuy.filter(F.buy == 'cancel_pay'))
+async def cancel_pay(call: CallbackQuery):
+    await db.clear_payment_bd(call.message.chat.id)  # отчищаем после отмены
+    await call.message.answer('Отмена заказа', reply_markup=menu_start())
+
+
+
+
 
 
 

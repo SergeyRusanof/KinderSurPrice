@@ -51,7 +51,7 @@ def sale_menu():
 
 def location():
     keyboard = InlineKeyboardBuilder()
-    keyboard.button(text='Центр', callback_data=MyLocation(loc='city'))
+    keyboard.button(text=f'Центр', callback_data=MyLocation(loc='city'))
     keyboard.button(text='Блочок', callback_data=MyLocation(loc='block'))
     keyboard.button(text='Фильтры', callback_data=MyLocation(loc='filtry'))
     keyboard.button(text='Ватутино', callback_data=MyLocation(loc='vatut'))
@@ -64,7 +64,7 @@ def location():
 def list_pay():
     keyboard = InlineKeyboardBuilder()
     keyboard.button(text='Купить', callback_data=ToBuy(buy='ok_pay'))
-    keyboard.button(text='Отменить', callback_data=ToBuy(buy='cancel'))
+    keyboard.button(text='Отменить', callback_data=ToBuy(buy='cancel_pay'))
     keyboard.adjust(2,2,2)
     return keyboard.as_markup()
 
@@ -82,7 +82,7 @@ def admin_start():
 
 def menu_profile():
     keyboard = InlineKeyboardBuilder()
-    keyboard.button(text='Забрать бонус', callback_data='ghr')
-    keyboard.button(text='Назад', callback_data='bdf')
+    keyboard.button(text='Забрать бонус', callback_data=ToAdmin(adm='take_bonus'))
+    keyboard.button(text='Назад', callback_data=ToAdmin(adm='back'))
     keyboard.adjust(2, 2, 2)
     return keyboard.as_markup()
