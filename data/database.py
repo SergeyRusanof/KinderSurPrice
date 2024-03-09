@@ -160,25 +160,22 @@ class DataBase:
             else:
                 return False
 
-    def take_bonus(self, user_id):
-        # Получаем всех друзей пользователя user_id
-        with self.conn:
-            friends = self.cursor.execute('SELECT friends FROM refers WHERE user_id = ?', (user_id,)).fetchall()
-        for friend_id in friends:
-            friend_id = friend_id[0]  # Распаковываем кортеж
-            with self.conn:
-                # Получаем значение count для друга
-                count = self.cursor.execute('SELECT count FROM payment WHERE user_id = ?', (friend_id,)).fetchone()
-
-            # Если count равно 1, начисляем бонус пользователю user_id
-            if count == 1:
-                with self.conn:
-                    # Начисляем бонус пользователю user_id
-                    self.cursor.execute('UPDATE narkos SET bonus = bonus + 1 WHERE user_id = ?', (user_id,))
-
     def check_bonus(self, user_id):
         with self.conn:
             bonus = self.cursor.execute('SELECT bonus FROM narkos WHERE user_id = ?', (user_id,)).fetchone()
             return bonus[0]
+
+    def give_bonus_to_referer(self, user_id):
+        with self.conn:
+            referer = self.cursor.execute('SELECT your_friend FROM refers WHERE user_id = ?', (user_id,)).fetchone()[0]
+            if referer is None:
+                pass
+            else:
+                # Начисляем бонус своему рефереру
+                self.cursor.execute('UPDATE narkos SET bonus = bonus + 1 WHERE user_id = ?', (referer,))
+
+    def del_location(self, location_id):
+        with self.conn:
+            self.cursor.execute('DELETE FROM locations WHERE id = ?', (location_id,))
 
 
