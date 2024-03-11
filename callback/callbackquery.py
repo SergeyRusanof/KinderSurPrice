@@ -20,22 +20,22 @@ async def buy(call: CallbackQuery):
 
 @call_router.callback_query(MyCallBack.filter(F.zap == "buy"))
 async def buy(call: CallbackQuery):
-    await call.message.answer('🌲Выбери товар. Колличество указано в скобочках..', reply_markup=sale_menu())
+    await call.message.answer('🌲Выбери товар. Колличество в наличии указано в скобочках..', reply_markup=sale_menu())
 
 
 @call_router.callback_query(MyCallBack.filter(F.zap == "gramm"))
 async def buy(call: CallbackQuery):
     user_id = call.message.chat.id
     db.add_product(user_id, 'Грамм', 3000)
-    await call.message.answer('🏘 Выбери район...', reply_markup=location())
+    await call.message.answer('🏘 Выбери район...', reply_markup=location(user_id))
     await call.message.delete()
 
 
 @call_router.callback_query(MyCallBack.filter(F.zap == "polka"))
 async def buy(call: CallbackQuery):
     user_id = call.message.chat.id
-    db.add_product(user_id, 'Пол грамма', 1500)
-    await call.message.answer('🏘 Выбери район...', reply_markup=location())
+    db.add_product(user_id, 'Полка(0,5 грамма)', 1500)
+    await call.message.answer('🏘 Выбери район...', reply_markup=location(user_id))
     await call.message.delete()
 
 
@@ -43,31 +43,15 @@ async def buy(call: CallbackQuery):
 async def buy(call: CallbackQuery):
     user_id = call.message.chat.id
     db.add_product(user_id, 'Корабль', 2000)
-    await call.message.answer('🏘 Выбери район...', reply_markup=location())
+    await call.message.answer('🏘 Выбери район...', reply_markup=location(user_id))
     await call.message.delete()
 
 
 @call_router.callback_query(MyCallBack.filter(F.zap == "path_full"))
 async def buy(call: CallbackQuery):
     user_id = call.message.chat.id
-    db.add_product(user_id, 'Пол корабля', 1000)
-    await call.message.answer('🏘 Выбери район...', reply_markup=location())
-    await call.message.delete()
-
-
-@call_router.callback_query(MyCallBack.filter(F.zap == "glass"))
-async def buy(call: CallbackQuery):
-    user_id = call.message.chat.id
-    db.add_product(user_id, 'Стакан', 25000)
-    await call.message.answer('🏘 Выбери район...', reply_markup=location())
-    await call.message.delete()
-
-
-@call_router.callback_query(MyCallBack.filter(F.zap == "decl"))
-async def buy(call: CallbackQuery):
-    user_id = call.message.chat.id
-    db.add_product(user_id, 'Пятка', 500)
-    await call.message.answer('🏘 Выбери район...', reply_markup=location())
+    db.add_product(user_id, 'Полка(0,5корабля)', 1000)
+    await call.message.answer('🏘 Выбери район...', reply_markup=location(user_id))
     await call.message.delete()
 
 
@@ -80,7 +64,8 @@ async def buy(call: CallbackQuery):
     res = db.list_pay(user_id)
     data = db.check_product_availability(res[3], res[2])
     if data != 0:
-        await call.message.answer(f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n', reply_markup=list_pay())
+        photo = 'AgACAgIAAxkBAAICH2XtxOyiEQuTV84pmUMVP6Gwl-4SAAIy1jEbQshwS-mS7hQL7mhbAQADAgADeQADNAQ'
+        await call.message.answer_photo(photo,f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n', reply_markup=list_pay())
     else:
         await call.message.answer('К сожалению в данном районе отсутствует товар\nВыберите другую локацию..')
     await call.message.delete()
@@ -93,8 +78,8 @@ async def buy(call: CallbackQuery):
     res = db.list_pay(user_id)
     data = db.check_product_availability(res[3], res[2])
     if data != 0:
-        await call.message.answer(f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n',
-                                  reply_markup=list_pay())
+        photo = 'AgACAgIAAxkBAAICH2XtxOyiEQuTV84pmUMVP6Gwl-4SAAIy1jEbQshwS-mS7hQL7mhbAQADAgADeQADNAQ'
+        await call.message.answer_photo(photo,f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n',reply_markup=list_pay())
     else:
         await call.message.answer('К сожалению в данном районе отсутствует товар\nВыберите другую локацию..')
     await call.message.delete()
@@ -107,8 +92,8 @@ async def buy(call: CallbackQuery):
     res = db.list_pay(user_id)
     data = db.check_product_availability(res[3], res[2])
     if data != 0:
-        await call.message.answer(f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n',
-                                  reply_markup=list_pay())
+        photo = 'AgACAgIAAxkBAAICH2XtxOyiEQuTV84pmUMVP6Gwl-4SAAIy1jEbQshwS-mS7hQL7mhbAQADAgADeQADNAQ'
+        await call.message.answer_photo(photo, f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n',reply_markup=list_pay())
     else:
         await call.message.answer('К сожалению в данном районе отсутствует товар\nВыберите другую локацию..')
     await call.message.delete()
@@ -121,35 +106,8 @@ async def buy(call: CallbackQuery):
     res = db.list_pay(user_id)
     data = db.check_product_availability(res[3], res[2])
     if data != 0:
-        await call.message.answer(f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n',
-                                  reply_markup=list_pay())
-    else:
-        await call.message.answer('К сожалению в данном районе отсутствует товар\nВыберите другую локацию..')
-    await call.message.delete()
-
-
-@call_router.callback_query(MyLocation.filter(F.loc == 'red'))
-async def buy(call: CallbackQuery):
-    user_id = call.message.chat.id
-    db.add_location(user_id, 'Красный городок')
-    res = db.list_pay(user_id)
-    data = db.check_product_availability(res[3], res[2])
-    if data != 0:
-        await call.message.answer(f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n',
-                                  reply_markup=list_pay())
-    else:
-        await call.message.answer('К сожалению в данном районе отсутствует товар\nВыберите другую локацию..')
-    await call.message.delete()
-
-@call_router.callback_query(MyLocation.filter(F.loc == 'zuev'))
-async def buy(call: CallbackQuery):
-    user_id = call.message.chat.id
-    db.add_location(user_id, 'Зуевский')
-    res = db.list_pay(user_id)
-    data = db.check_product_availability(res[3], res[2])
-    if data != 0:
-        await call.message.answer(f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n',
-                                  reply_markup=list_pay())
+        photo = 'AgACAgIAAxkBAAICH2XtxOyiEQuTV84pmUMVP6Gwl-4SAAIy1jEbQshwS-mS7hQL7mhbAQADAgADeQADNAQ'
+        await call.message.answer_photo(photo,f'Проверь заказ...\n\nТовар - {res[2]}\nРайон - {res[3]}\nСумма - {res[4]} рублей\n',reply_markup=list_pay())
     else:
         await call.message.answer('К сожалению в данном районе отсутствует товар\nВыберите другую локацию..')
     await call.message.delete()

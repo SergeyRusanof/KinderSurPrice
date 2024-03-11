@@ -48,20 +48,18 @@ def sale_menu():
     keyboard.button(text=f'Полка(0.5гр)  *({pgr}шт)*', callback_data=MyCallBack(zap='polka'))
     keyboard.button(text=f'🚢Купить корабль  *({kr}шт)*', callback_data=MyCallBack(zap='full'))
     keyboard.button(text=f'Полка(0.5корабля)  *({pkr}шт)*', callback_data=MyCallBack(zap='path_full'))
-    keyboard.button(text='🤯Купить стакан', callback_data=MyCallBack(zap='glass'))
-    keyboard.button(text=f'🤫Пятка  *({decl}шт)*', callback_data=MyCallBack(zap='decl'))
     keyboard.adjust(2,2,2)
     return keyboard.as_markup()
 
 
-def location():
+def location(user_id):
+    data = db.list_pay(user_id)
+    product = data[2]
     keyboard = InlineKeyboardBuilder()
-    keyboard.button(text=f'Центр', callback_data=MyLocation(loc='city'))
-    keyboard.button(text='Блочок', callback_data=MyLocation(loc='block'))
-    keyboard.button(text='Фильтры', callback_data=MyLocation(loc='filtry'))
-    keyboard.button(text='Ватутино', callback_data=MyLocation(loc='vatut'))
-    keyboard.button(text='Красный', callback_data=MyLocation(loc='red'))
-    keyboard.button(text='Зуевский', callback_data=MyLocation(loc='zuev'))
+    keyboard.button(text=f'Центр - {db.count_prod_loc(product,"Центр")} шт', callback_data=MyLocation(loc='city'))
+    keyboard.button(text=f'Блочок - {db.count_prod_loc(product,"Блочок")} шт', callback_data=MyLocation(loc='block'))
+    keyboard.button(text=f'Фильтры - {db.count_prod_loc(product, "Фильтровальная")} шт', callback_data=MyLocation(loc='filtry'))
+    keyboard.button(text=f'Ватутино - {db.count_prod_loc(product,"Ватутино")} шт', callback_data=MyLocation(loc='vatut'))
     keyboard.adjust(2,2,2)
     return keyboard.as_markup()
 

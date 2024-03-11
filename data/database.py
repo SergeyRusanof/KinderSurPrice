@@ -136,6 +136,16 @@ class DataBase:
             else:
                 return 0  # Если таблица пуста, возвращаем 0
 
+    def count_prod_loc(self, product, area):
+        """Определение количества товаров в таблице"""
+        with self.conn:
+            self.cursor.execute("SELECT COUNT(*) FROM locations WHERE product=? and  area=?", (product, area))
+            result = self.cursor.fetchone()
+            if result:
+                return result[0]  # Возвращаем количество товаров
+            else:
+                return 0  # Если таблица пуста, возвращаем 0
+
     def count_pays(self, user_id):
         """Определение количества продаж в профиле"""
         with self.conn:
@@ -177,5 +187,13 @@ class DataBase:
     def del_location(self, location_id):
         with self.conn:
             self.cursor.execute('DELETE FROM locations WHERE id = ?', (location_id,))
+
+    async def off_bonus(self, user_id):
+        with self.conn:
+            result = self.cursor.execute('SELECT count_pay FROM narkos WHERE user_id = ?', (user_id,)).fetchone()[0]
+            if result == 0:
+                self.cursor.execute('UPDATE narkos SET count_pay = count_pay + 1 WHERE user_id = ?', (user_id,))
+            else:
+                return False
 
 
